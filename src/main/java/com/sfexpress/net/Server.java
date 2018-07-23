@@ -32,7 +32,7 @@ public class Server {
                 task = serverSocket.accept();
                 new Thread(new ServerTask(task)).start();
                 clientNumber++;
-                System.out.println("Client : " + clientNumber + ", " + task.getRemoteSocketAddress());
+                System.out.println("Client : " + clientNumber);
 
             }
             return 0;
@@ -48,7 +48,7 @@ class ServerTask implements Runnable {
     }
     @Override
     public void run() {
-        //System.out.println("处理开始");
+        System.out.println("处理开始");
         try (
                 ObjectOutputStream output = new ObjectOutputStream(task.getOutputStream());
                 ObjectInputStream input = new ObjectInputStream(task.getInputStream());
@@ -56,7 +56,7 @@ class ServerTask implements Runnable {
             while (true) {
                 String msg = input.readUTF();
                 Date date = new Date();
-                System.out.println( task.getRemoteSocketAddress()+" 发来消息(" + date.getTime() + "):" + msg);
+                System.out.println( task.getRemoteSocketAddress() + "发来消息+(" + date.getTime() + "):" + msg);
                 output.writeUTF("server已经接收到(" + date + "):" + msg);
                 output.flush();
                 if (msg.equals(Server.ExitMessage)) break;
